@@ -1,82 +1,28 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputFeilds";
 import CustomButton from "@/components/customButton";
 import { Link, router } from "expo-router";
 import { Oauth } from "@/components/oAuth";
-import { useSignUp } from "@clerk/clerk-expo";
 import ReactNativeModal from "react-native-modal";
+import { useAuthStore } from "@/store/authStore";
 
 const SignUp = () => {
-  const { isLoaded, signUp, setActive } = useSignUp();
-  const [verification, setVerification] = useState({
-    state: "pending",
-    error: "",
-    code: "",
-  });
-
   const [form, setForm] = useState({
-    username: "",
+    fullName: "",
     email: "",
     password: "",
   });
+  const { signup } = useAuthStore();
 
-  // Handle submission of sign-up form
-  const onSignUpPress = async () => {
-    if (!isLoaded) return;
+  const [verification, setVerification] = useState({
+    state: "default",
+  });
 
-    // Start sign-up process using email and password provided
-    try {
-      await signUp.create({
-        emailAddress: form.email,
-        password: form.password,
-      });
-
-      // Send user an email with verification code
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
-      setVerification({
-        ...verification,
-        state: "pending",
-      });
-    } catch (err) {
-      console.error(JSON.stringify(err, null, 2));
-    }
-  };
-
-  // Handle submission of verification form
-  const onVerifyPress = async () => {
-    if (!isLoaded) return;
-
-    try {
-      // Use the code the user provided to attempt verification
-      const signUpAttempt = await signUp.attemptEmailAddressVerification({
-        code: verification.code,
-      });
-
-      // If verification was completed, set the session to active
-      // and redirect the user
-      if (signUpAttempt.status === "complete") {
-        //TODO : create a database user
-        await setActive({ session: signUpAttempt.createdSessionId });
-        setVerification({ ...verification, state: "success" });
-      } else {
-        setVerification({
-          ...verification,
-          error: "verification Failed",
-          state: "Failed",
-        });
-      }
-    } catch (err: any) {
-      setVerification({
-        ...verification,
-        error: err.errors[0].longMessage,
-        state: "Failed",
-      });
-    }
+  const handleSignUp = () => {
+    signup(form);
+    setVerification({ state: "success" });
   };
 
   return (
@@ -92,14 +38,14 @@ const SignUp = () => {
             Create Your Account
           </Text>
         </View>
-        <View className="flex-1 w-full mx-5 gap-2">
+        <View className="flex-1 w-full mx-5 gap-2 ">
           <InputField
             label="Name"
             placeholder="Enter your name"
             icon={icons.person}
             containerStyle="p-2 bg-neutral-100 rounded-full border border-neutral-100 focus:border-primary-500 mx-6 h-[60px]"
-            value={form.username}
-            onChangeText={(value) => setForm({ ...form, username: value })}
+            value={form.fullName}
+            onChangeText={(value) => setForm({ ...form, fullName: value })}
             iconStyle="h-7 w-7 mx-3"
             labelStyle="m-5  text-xl ml-8"
             inputStyle="w-[50%]"
@@ -127,8 +73,8 @@ const SignUp = () => {
           <CustomButton
             style={{ width: "95%" }}
             title="SignUp"
-            className="mx-2 w-[90%] mt-12 h-16"
-            onPress={onSignUpPress}
+            className="mx-4 w-[90%] mt-12 h-16"
+            onPress={handleSignUp}
           />
           <Oauth />
           <Link href={"/(auth)/sign-in"} className="text-center text-lg mt-10">
@@ -137,7 +83,7 @@ const SignUp = () => {
           </Link>
         </View>
 
-        <ReactNativeModal
+        {/* <ReactNativeModal
           isVisible={verification.state === "pending"}
           // onBackdropPress={() =>
           //   setVerification({ ...verification, state: "default" })
@@ -149,8 +95,8 @@ const SignUp = () => {
             // }}
             setVerification({ ...verification, state: "default" });
           }}
-        >
-          <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
+        > */}
+        {/* <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Text
               className="font-bold mb-2"
               style={{ fontSize: 25, marginBottom: 5 }}
@@ -184,7 +130,7 @@ const SignUp = () => {
               style={{ height: 50 }}
             />
           </View>
-        </ReactNativeModal>
+        </ReactNativeModal> */}
 
         <ReactNativeModal isVisible={verification.state === "success"}>
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
