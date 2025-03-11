@@ -21,3 +21,31 @@ model User {
   createdAt  DateTime @default(now())
   profilePic String?  @default("")
 }
+
+model Driver {
+  id           Int     @id @default(autoincrement())
+  firstName    String
+  LastName     String
+  profilePic   String
+  vehiclePic   String
+  vehicleSeats Int     @default(1) @db.Integer
+  rating       Decimal @db.Decimal(3, 2)
+  rides        Rides[]
+}
+
+model Rides {
+  ride_id              Int      @id @default(autoincrement())
+  originAddress        String
+  destinationAddress   String
+  originLatitude       Decimal  @db.Decimal(9, 6)
+  originLongitude      Decimal  @db.Decimal(9, 6)
+  destinationLatitude  Decimal  @db.Decimal(9, 6)
+  destinationLongitude Decimal  @db.Decimal(9, 6)
+  rideTime             Int
+  farePrice            Decimal  @db.Decimal(10, 2)
+  paymentStatus        String
+  userId               String
+  createdAt            DateTime @default(now())
+  driverId             Int
+  driver               Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+}
