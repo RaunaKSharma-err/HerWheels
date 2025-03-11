@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputFeilds";
@@ -15,7 +15,7 @@ const SignIn = () => {
     password: "",
   });
 
-  const { login } = useAuthStore();
+  const { login, isLoggingIn } = useAuthStore();
 
   const [verification, setVerification] = useState({
     state: "default",
@@ -23,7 +23,11 @@ const SignIn = () => {
 
   const handleLogIn = () => {
     login(form);
-    setVerification({ state: "success" });
+    if (!isLoggingIn) {
+      setVerification({ state: "success" });
+    } else {
+      Alert.alert("Error", "error in login page");
+    }
   };
   return (
     <ScrollView className="flex-1 bg-white ">
@@ -87,7 +91,7 @@ const SignIn = () => {
               className="text-black text-center"
               style={{ fontSize: 15, marginTop: 6 }}
             >
-              You have succesfully verified your account.
+              You have succesfully logged In.
             </Text>
             <CustomButton
               title="Browse Home"

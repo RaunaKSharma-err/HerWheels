@@ -11,7 +11,7 @@ type User = {
 };
 
 type authStore = {
-  authUser: any;
+  authUser: User | null;
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;

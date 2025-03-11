@@ -14,7 +14,7 @@ const SignUp = () => {
     email: "",
     password: "",
   });
-  const { signup } = useAuthStore();
+  const { signup, isSigningUp } = useAuthStore();
 
   const [verification, setVerification] = useState({
     state: "default",
@@ -22,7 +22,11 @@ const SignUp = () => {
 
   const handleSignUp = () => {
     signup(form);
-    setVerification({ state: "success" });
+    if (!isSigningUp) {
+      setVerification({ state: "success" });
+    } else {
+      Alert.alert("Error", "error in signup page");
+    }
   };
 
   return (

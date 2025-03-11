@@ -12,24 +12,88 @@ const TabIcon = ({
 }) => (
   <View
     className={`flex flex-row justify-center items-center rounded-full ${
-      focused ? "bg-general-300" : ""
+      focused ? "bg-green-600" : ""
     }`}
   >
     <View
-      className={`rounded-full w-12 h-12 items-center justify-center ${
-        focused ? "bg-general-400" : ""
+      className={`rounded-full w-12 h-12 p-2 items-center justify-center ${
+        focused ? "bg-green-600" : ""
       }`}
     >
       <Image
         source={source}
         tintColor="white"
         resizeMode="contain"
-        className="w-7 h-7"
+        className="w-9 h-9"
       />
     </View>
   </View>
 );
 
 export default function Layout() {
-  return <Tabs></Tabs>;
+  return (
+    <Tabs
+      initialRouteName="index"
+      screenOptions={{
+        tabBarActiveTintColor: "white",
+        tabBarInactiveTintColor: "white",
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          backgroundColor: "#333333",
+          borderRadius: 50,
+          paddingBottom: 25, // ios only
+          overflow: "hidden",
+          marginHorizontal: 20,
+          marginBottom: 20,
+          height: 78,
+          display: "flex",
+          justifyContent: "space-evenly",
+          alignItems: "center",
+          flexDirection: "row",
+          position: "absolute",
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="home"
+        options={{
+          title: "Home",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon source={icons.home} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="rides"
+        options={{
+          title: "Rides",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon source={icons.list} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="chat"
+        options={{
+          title: "Chat",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon source={icons.chat} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
+          headerShown: false,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon source={icons.profile} focused={focused} />
+          ),
+        }}
+      />
+    </Tabs>
+  );
 }
