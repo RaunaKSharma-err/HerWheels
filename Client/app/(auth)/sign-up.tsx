@@ -1,5 +1,5 @@
 import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { icons, images } from "@/constants";
 import InputField from "@/components/inputFeilds";
 import CustomButton from "@/components/customButton";
@@ -7,14 +7,34 @@ import { Link, router } from "expo-router";
 import { Oauth } from "@/components/oAuth";
 import ReactNativeModal from "react-native-modal";
 import { useAuthStore } from "@/store/authStore";
+import axios from "axios";
 
 const SignUp = () => {
+  const data = {
+    fullName: "test",
+    email: "test@gmail.com",
+    password: "test12345",
+  };
+
+  useEffect(() => {
+    const test = async () => {
+      const response = await axios.post(
+        "http://192.168.254.4:5000/api/auth/signup",
+        data
+      );
+      console.log("user created");
+
+      console.log(response.data);
+    };
+    test();
+  }, []);
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
     password: "",
   });
-  const { signup, isSigningUp } = useAuthStore();
+  const { signup, authUser } = useAuthStore();
 
   const [verification, setVerification] = useState({
     state: "default",
@@ -22,10 +42,10 @@ const SignUp = () => {
 
   const handleSignUp = () => {
     signup(form);
-    if (!isSigningUp) {
+    if (!authUser) {
       setVerification({ state: "success" });
     } else {
-      Alert.alert("Error", "error in signup page");
+      Alert.alert("Error", "Failed to create new account");
     }
   };
 

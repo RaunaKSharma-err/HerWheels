@@ -1,7 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 
-const BASE_URL: string = "http://192.168.254.10:5000/";
+const BASE_URL: string = "http://192.168.56.1:5000/";
 
 type User = {
   _id: string;
@@ -51,6 +51,8 @@ export const useAuthStore = create<authStore>((set, get) => ({
     try {
       const response = await axios.post(`${BASE_URL}api/auth/login`, data);
       set({ authUser: response.data });
+      console.log("account created");
+      
     } catch (error) {
       console.log("Error in signup", error);
     } finally {

@@ -2,9 +2,13 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 const Profile = () => {
+  const handleOnPress=()=>{
+
+  }
   return (
-    <View>
+    <View className='flex justify-center items-center'>
       <Text>Profile</Text>
+
     </View>
   )
 }

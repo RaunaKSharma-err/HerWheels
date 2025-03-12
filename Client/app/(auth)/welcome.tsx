@@ -11,7 +11,6 @@ import { router } from "expo-router";
 import Swiper from "react-native-swiper";
 import { onBoardingContent } from "@/constants";
 import CustomButton from "@/components/customButton";
-import axios from "axios";
 
 const onBoarding = () => {
   const swiperRef = useRef<Swiper>(null);

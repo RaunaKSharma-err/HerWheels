@@ -10,12 +10,11 @@ import ReactNativeModal from "react-native-modal";
 
 const SignIn = () => {
   const [form, setForm] = useState({
-    username: "",
     email: "",
     password: "",
   });
 
-  const { login, isLoggingIn } = useAuthStore();
+  const { login, isLoggingIn, authUser } = useAuthStore();
 
   const [verification, setVerification] = useState({
     state: "default",
@@ -23,10 +22,10 @@ const SignIn = () => {
 
   const handleLogIn = () => {
     login(form);
-    if (!isLoggingIn) {
+    if (!isLoggingIn && authUser != null) {
       setVerification({ state: "success" });
     } else {
-      Alert.alert("Error", "error in login page");
+      Alert.alert("Error", "Invalid Credentials");
     }
   };
   return (

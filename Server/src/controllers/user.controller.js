@@ -1,5 +1,5 @@
 import prisma from "../DB/db.config.js";
-import bycrypt from "bcrypt";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import cloudinary from "../lib/cloudinary.js";
 
@@ -10,6 +10,8 @@ export const signup = async (req, res) => {
   if (!fullName || !email || !password) {
     return res.status(400).json({ message: "all feilds are required" });
   }
+  console.log("fine");
+
   try {
     if (password.length < 8) {
       return res
@@ -18,32 +20,40 @@ export const signup = async (req, res) => {
     }
 
     const user = await prisma.user.findUnique({ where: { email: email } });
-
     if (user) {
       return res.status(400).json({ message: "Email already exists.." });
     }
+    console.log("fine1");
+    const salt = await bcrypt.genSalt(10);
+    const hashedPass = await bcrypt.hash(password, salt);
 
-    const salt = await bycrypt.genSalt(10);
-    const hashedPass = await bycrypt.hash(password, salt);
-
+    await prisma.user.create({
+      data: {
+        fullName: "Test User",
+        email: "test@example.com",
+        password: "testpass",
+      },
+    });
+    console.log("fine2");
     // const newUser =
     const newUser = await prisma.user.create({
       data: { fullName: fullName, email: email, password: hashedPass },
     });
-    return res.json({ msg: "everything fine" });
+    console.log("New user created:", newUser);
 
     if (newUser) {
-      jwt.sign(
+      const token = jwt.sign(
         { id: newUser.id, email: newUser.email },
         process.env.seceret_key,
         { expiresIn: "7d" }
       );
 
       res.status(201).json({
-        _id: newUser._id,
+        id: newUser.id,
         fullName: newUser.fullName,
         email: newUser.email,
         profilePic: newUser.profilePic,
+        token,
       });
     } else {
       res.status(400).json({ message: "Invalid user data..." });
