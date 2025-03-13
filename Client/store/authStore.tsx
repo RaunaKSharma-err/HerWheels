@@ -1,13 +1,13 @@
 import axios from "axios";
 import { create } from "zustand";
 
-const BASE_URL: string = "http://192.168.56.1:5000/";
+const BASE_URL: string = "http://192.168.254.4:5000/";
 
 type User = {
-  _id: string;
+  id: string;
   fullName: string;
+  email: string;
   profilePic?: string;
-  isOnline?: boolean;
 };
 
 type authStore = {
@@ -22,6 +22,7 @@ type authStore = {
   logout: () => Promise<void>;
   updateProfile: (data: string) => Promise<void>;
   onlineUsers: string[];
+  success: boolean;
 };
 export const useAuthStore = create<authStore>((set, get) => ({
   authUser: null,
@@ -30,7 +31,7 @@ export const useAuthStore = create<authStore>((set, get) => ({
   isUpdatingProfile: false,
   isCheckingUp: true,
   onlineUsers: [],
-  socket: null,
+  success: false,
 
   checkAuth: async () => {
     try {
@@ -38,8 +39,8 @@ export const useAuthStore = create<authStore>((set, get) => ({
       set({ authUser: response.data });
       if (response.data) {
       }
-    } catch (error) {
-      console.log("Error in checkAuth", error);
+    } catch (error: any) {
+      console.log("Error in checkAuth", error.message);
       set({ authUser: null });
     } finally {
       set({ isCheckingUp: false });
@@ -49,10 +50,10 @@ export const useAuthStore = create<authStore>((set, get) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const response = await axios.post(`${BASE_URL}api/auth/login`, data);
+      console.log(data);
+
+      const response = await axios.post(`${BASE_URL}api/auth/signup`, data);
       set({ authUser: response.data });
-      console.log("account created");
-      
     } catch (error) {
       console.log("Error in signup", error);
     } finally {
@@ -63,10 +64,12 @@ export const useAuthStore = create<authStore>((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const response = await axios.post("/auth/login", data);
+      const response = await axios.post(`${BASE_URL}api/auth/login`, data);
       set({ authUser: response.data });
+      set({ success: true });
     } catch (error) {
       console.log("Error in login", error);
+      set({ success: false });
     } finally {
       set({ isLoggingIn: false });
     }

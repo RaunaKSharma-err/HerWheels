@@ -10,25 +10,6 @@ import { useAuthStore } from "@/store/authStore";
 import axios from "axios";
 
 const SignUp = () => {
-  const data = {
-    fullName: "test",
-    email: "test@gmail.com",
-    password: "test12345",
-  };
-
-  useEffect(() => {
-    const test = async () => {
-      const response = await axios.post(
-        "http://192.168.254.4:5000/api/auth/signup",
-        data
-      );
-      console.log("user created");
-
-      console.log(response.data);
-    };
-    test();
-  }, []);
-
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -40,12 +21,18 @@ const SignUp = () => {
     state: "default",
   });
 
-  const handleSignUp = () => {
-    signup(form);
-    if (!authUser) {
+  const handleSignUp = async () => {
+    if (form.password.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters long.");
+      return;
+    }
+
+    await signup(form);
+    const currentState = useAuthStore.getState().authUser;
+    if (currentState) {
       setVerification({ state: "success" });
     } else {
-      Alert.alert("Error", "Failed to create new account");
+      Alert.alert("Error", "Email already exists!");
     }
   };
 

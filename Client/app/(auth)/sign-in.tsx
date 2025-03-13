@@ -14,15 +14,21 @@ const SignIn = () => {
     password: "",
   });
 
-  const { login, isLoggingIn, authUser } = useAuthStore();
+  const { login } = useAuthStore();
 
   const [verification, setVerification] = useState({
     state: "default",
   });
 
-  const handleLogIn = () => {
-    login(form);
-    if (!isLoggingIn && authUser != null) {
+  const handleLogIn = async () => {
+    if (form.password.length < 8) {
+      Alert.alert("Error", "Password must be at least 8 characters long.");
+      return;
+    }
+
+    await login(form);
+    const currentState = useAuthStore.getState().authUser;
+    if (currentState) {
       setVerification({ state: "success" });
     } else {
       Alert.alert("Error", "Invalid Credentials");

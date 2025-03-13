@@ -8,59 +8,52 @@ export const signup = async (req, res) => {
   console.log(fullName, email, password);
 
   if (!fullName || !email || !password) {
-    return res.status(400).json({ message: "all feilds are required" });
+    return res.status(400).json({ message: "All fields are required" });
   }
-  console.log("fine");
 
   try {
     if (password.length < 8) {
       return res
         .status(400)
-        .json({ message: "password length must be greater than 8 character" });
+        .json({ message: "Password must be at least 8 characters long" });
     }
 
-    const user = await prisma.user.findUnique({ where: { email: email } });
-    if (user) {
-      return res.status(400).json({ message: "Email already exists.." });
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email: email },
+    });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists." });
     }
-    console.log("fine1");
+
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPass = await bcrypt.hash(password, salt);
 
-    await prisma.user.create({
-      data: {
-        fullName: "Test User",
-        email: "test@example.com",
-        password: "testpass",
-      },
-    });
-    console.log("fine2");
-    // const newUser =
+    // Create new user
     const newUser = await prisma.user.create({
-      data: { fullName: fullName, email: email, password: hashedPass },
+      data: { fullName, email, password: hashedPass },
     });
-    console.log("New user created:", newUser);
 
-    if (newUser) {
-      const token = jwt.sign(
-        { id: newUser.id, email: newUser.email },
-        process.env.seceret_key,
-        { expiresIn: "7d" }
-      );
+    console.log("User created:", newUser);
 
-      res.status(201).json({
-        id: newUser.id,
-        fullName: newUser.fullName,
-        email: newUser.email,
-        profilePic: newUser.profilePic,
-        token,
-      });
-    } else {
-      res.status(400).json({ message: "Invalid user data..." });
-    }
+    // Generate token
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email },
+      process.env.SECRET_KEY, // Fix the typo (was "seceret_key")
+      { expiresIn: "7d" }
+    );
+
+    return res.status(201).json({
+      id: newUser.id,
+      fullName: newUser.fullName,
+      email: newUser.email,
+      profilePic: newUser.profilePic,
+      token,
+    });
   } catch (error) {
-    console.log("Error in signup controller: " + error.message);
-    res.status(501).json({ message: "internal server error" });
+    console.error("Error in signup controller:", error.message);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -76,17 +69,22 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "user not found" });
     }
 
-    const isPasswordCorrect = await bycrypt.compare(password, user.password);
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    generateToken(user._id, res);
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.SECRET_KEY,
+      { expiresIn: "7d" }
+    );
 
     res.status(200).json({
       _id: user._id,
       fullName: user.fullName,
       email: user.email,
+      token,
     });
   } catch (error) {
     console.log("Error in login controller: " + error.message);
