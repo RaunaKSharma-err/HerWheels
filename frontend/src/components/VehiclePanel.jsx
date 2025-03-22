@@ -2,7 +2,7 @@ import React from "react";
 
 const VehiclePanel = (props) => {
   return (
-    <div>
+    <div className="z-1">
       <h5
         className="p-1 text-center w-[93%] absolute top-0"
         onClick={() => {
@@ -11,7 +11,9 @@ const VehiclePanel = (props) => {
       >
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
-      <h3 className="text-2xl font-semibold mb-5">Choose a Vehicle</h3>
+      <h3 className="text-2xl text-black font-semibold mb-5">
+        Choose a Vehicle
+      </h3>
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
@@ -25,18 +27,18 @@ const VehiclePanel = (props) => {
           alt=""
         />
         <div className="ml-2 w-1/2">
-          <h4 className="font-medium text-base">
-            UberGo{" "}
+          <h4 className="font-medium text-base text-gray-600">
+            Cab{" "}
             <span>
-              <i className="ri-user-3-fill"></i>4
+              <i className="ri-user-3-fill text-gray-600"></i>4
             </span>
           </h4>
-          <h5 className="font-medium text-sm">2 mins away </h5>
+          <h5 className="font-medium text-sm text-gray-600">2 mins away </h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable, cab rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹80/km</h2>
+        <h2 className="text-lg font-semibold text-black">₹80/km</h2>
       </div>
       <div
         onClick={() => {
@@ -51,18 +53,18 @@ const VehiclePanel = (props) => {
           alt=""
         />
         <div className="-ml-2 w-1/2">
-          <h4 className="font-medium text-base">
+          <h4 className="font-medium text-base text-gray-600">
             Moto{" "}
             <span>
-              <i className="ri-user-3-fill"></i>1
+              <i className="ri-user-3-fill text-gray-600"></i>1
             </span>
           </h4>
-          <h5 className="font-medium text-sm">3 mins away </h5>
+          <h5 className="font-medium text-sm text-gray-600">3 mins away </h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹30/km</h2>
+        <h2 className="text-lg font-semibold text-black">₹30/km</h2>
       </div>
       <div
         onClick={() => {
@@ -77,18 +79,18 @@ const VehiclePanel = (props) => {
           alt=""
         />
         <div className="ml-2 w-1/2">
-          <h4 className="font-medium text-base">
-            UberAuto{" "}
+          <h4 className="font-medium text-base text-gray-600">
+            Auto{" "}
             <span>
-              <i className="ri-user-3-fill"></i>3
+              <i className="ri-user-3-fill text-gray-600"></i>3
             </span>
           </h4>
-          <h5 className="font-medium text-sm">3 mins away </h5>
+          <h5 className="font-medium text-sm text-gray-600">3 mins away </h5>
           <p className="font-normal text-xs text-gray-600">
             Affordable Auto rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">₹50/km</h2>
+        <h2 className="text-lg font-semibold text-black">₹50/km</h2>
       </div>
     </div>
   );

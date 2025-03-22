@@ -7,6 +7,8 @@ export const useHomeStore = create((set, get) => ({
   vehicletype: "",
   pickupCoordinates: null,
   destinationCoordinates: null,
+  userLat: null,
+  userLng: null,
 
   setFareDistanceAndDuration: ({
     distanceKm,
@@ -24,5 +26,8 @@ export const useHomeStore = create((set, get) => ({
   },
   setdestinationCoordinates: (dest) => {
     set({ destinationCoordinates: dest });
+  },
+  setuserLocation: ({ lat, lng }) => {
+    set({ userLat: lat, userLng: lng });
   },
 }));

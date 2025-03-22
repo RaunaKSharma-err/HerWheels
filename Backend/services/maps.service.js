@@ -1,14 +1,20 @@
 const captainModel = require("../models/captain.model");
 
-// ✅ Find Captains in a Given Radius (MongoDB Geo Query)
 module.exports.getCaptainsInTheRadius = async (lat, lng, radius) => {
-  const captains = await captainModel.find({
-    location: {
-      $geoWithin: {
-        $centerSphere: [[lng, lat], radius / 6371], // Convert radius to radians
+  try {
+    const nearbyCaptains = await captainModel.find({
+      location: {
+        $near: {
+          $geometry: { type: "Point", coordinates: [lng, lat] },
+          $maxDistance: 2000,
+        },
       },
-    },
-  });
+    });
 
-  return captains;
+    console.log(`Found ${nearbyCaptains.length} captains nearby`);
+    return nearbyCaptains;
+  } catch (error) {
+    console.error("Error finding captains:", error);
+    return [];
+  }
 };

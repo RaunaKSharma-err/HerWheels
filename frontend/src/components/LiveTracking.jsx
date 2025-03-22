@@ -38,7 +38,6 @@ const useCoordinates = (place) => {
 
 const LiveTracking = ({ setUserLocation }) => {
   const map = useMap();
-
   useEffect(() => {
     const watchId = navigator.geolocation.watchPosition(
       (position) => {
@@ -136,11 +135,11 @@ const MapComponent = ({
   }, [fetchedStart, fetchedEnd]);
 
   return (
-    <div style={{ width: "100%", height: "90vh", zIndex: 1 }}>
+    <div style={{ width: 392, height: "90vh", zIndex: 1, padding: 1 }}>
       <MapContainer
         center={start || { lat: 27.7172, lng: 85.324 }}
         zoom={13}
-        style={{ height: "70vh", width: "100%", zIndex: 1 }}
+        style={{ height: "60vh", width: "100%", zIndex: 1 }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 

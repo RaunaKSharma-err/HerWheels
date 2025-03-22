@@ -37,7 +37,6 @@ const Home = () => {
   const [ride, setRide] = useState(null);
   const [routeRequested, setrouteRequested] = useState(false);
   const [rideDetails, setrideDetails] = useState({});
-  console.log(rideDetails);
 
   const navigate = useNavigate();
 
@@ -192,160 +191,181 @@ const Home = () => {
   );
 
   return (
-    <div className="h-screen relative overflow-hidden">
-      <img
-        className="w-16 absolute left-5 top-5"
-        src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-        alt=""
-      />
-      <div className="h-screen w-screen">
-        {/* image for temporary use  */}
-        <LiveTracking
-          startPlace={pickup}
-          endPlace={destination}
-          vehicleType={vehicleType}
-          routeRequested={routeRequested}
-        />
-      </div>
-      <div className=" flex flex-col justify-end h-screen absolute top-0 w-full">
-        <div
-          className={`h-[30%] p-6 bg-white relative ${panelOpen ? "z-50" : ""}`}
-        >
-          <h5
-            ref={panelCloseRef}
-            onClick={() => {
-              setPanelOpen(false);
-            }}
-            className="absolute opacity-0 right-6 top-6 text-2xl"
-          >
-            <i className="ri-arrow-down-wide-line"></i>
-          </h5>
-          <h4 className="text-2xl font-semibold">Find a trip</h4>
-          <form className="relative py-3" onSubmit={(e) => e.preventDefault()}>
-            <input
-              onClick={() => setActiveField("pickup")}
-              value={pickup}
-              onChange={(e) => {
-                setPickup(e.target.value);
-                fetchLocationSuggestions(e.target.value, setPickupSuggestions);
-              }}
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full"
-              type="text"
-              placeholder="Add a pick-up location"
+    <div className="flex justify-center items-center pt-[22px]">
+      <div className="mockup-phone h-[95vh] z-10">
+        <div className="mockup-phone-camera z-10"></div>
+        <div className="mockup-phone-display z-10">
+          <div className="h-[91vh] rounded-b-[49px] relative overflow-hidden">
+            <img
+              className="w-16 absolute left-5 top-5"
+              src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
+              alt=""
             />
-            {pickupSuggestions.length > 0 && (
-              <ul className="bg-white shadow-md rounded-lg absolute w-full z-50">
-                {pickupSuggestions.map((place, index) => (
-                  <li
-                    key={index}
-                    className="p-2 cursor-pointer"
-                    onClick={() => handleLocationSelect(place, setPickup)}
-                  >
-                    {place.name}, {place.state}, {place.country}
-                  </li>
-                ))}
-              </ul>
-            )}
-            <input
-              onClick={() => setActiveField("destination")}
-              value={destination}
-              onChange={(e) => {
-                setDestination(e.target.value);
-                fetchLocationSuggestions(
-                  e.target.value,
-                  setDestinationSuggestions
-                );
-              }}
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
-              type="text"
-              placeholder="Enter your destination"
-            />
-            {destinationSuggestions.length > 0 && (
-              <ul className="bg-white shadow-md rounded-lg absolute w-full z-50">
-                {destinationSuggestions.map((place, index) => (
-                  <li
-                    key={index}
-                    className="p-2 cursor-pointer"
-                    onClick={() => handleLocationSelect(place, setDestination)}
-                  >
-                    {place.name}, {place.state}, {place.country}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </form>
-          <button
-            onClick={() => {
-              findTrip(), setrouteRequested(true), console.log(routeRequested);
-            }}
-            className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
-          >
-            Find Trip
-          </button>
+            <div className="h-screen w-screen">
+              {/* image for temporary use  */}
+              <LiveTracking
+                startPlace={pickup}
+                endPlace={destination}
+                vehicleType={vehicleType}
+                routeRequested={routeRequested}
+              />
+            </div>
+            <div className=" flex flex-col rounded-b-[49px] justify-end h-screen absolute top-0 w-full">
+              <div
+                className={`h-[40%] p-6 bg-white rounded-b-[49px] relative ${
+                  panelOpen ? "z-50" : ""
+                }`}
+              >
+                <h5
+                  ref={panelCloseRef}
+                  onClick={() => {
+                    setPanelOpen(false);
+                  }}
+                  className="absolute opacity-0 right-6 top-6 text-2xl"
+                >
+                  <i className="ri-arrow-down-wide-line"></i>
+                </h5>
+                <h4 className="text-2xl font-semibold text-black">
+                  Find a trip
+                </h4>
+                <form
+                  className="relative py-3"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <input
+                    onClick={() => setActiveField("pickup")}
+                    value={pickup}
+                    onChange={(e) => {
+                      setPickup(e.target.value);
+                      fetchLocationSuggestions(
+                        e.target.value,
+                        setPickupSuggestions
+                      );
+                    }}
+                    className="bg-black px-12 py-2 text-lg rounded-lg w-full"
+                    type="text"
+                    placeholder="Add a pick-up location"
+                  />
+                  {pickupSuggestions.length > 0 && (
+                    <ul className="bg-black text-white shadow-md rounded-lg absolute w-full z-50">
+                      {pickupSuggestions.map((place, index) => (
+                        <li
+                          key={index}
+                          className="p-2 cursor-pointer"
+                          onClick={() => handleLocationSelect(place, setPickup)}
+                        >
+                          {place.name}, {place.state}, {place.country}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <input
+                    onClick={() => setActiveField("destination")}
+                    value={destination}
+                    onChange={(e) => {
+                      setDestination(e.target.value);
+                      fetchLocationSuggestions(
+                        e.target.value,
+                        setDestinationSuggestions
+                      );
+                    }}
+                    className="bg-black px-12 py-2 text-lg rounded-lg w-full mt-3"
+                    type="text"
+                    placeholder="Enter your destination"
+                  />
+                  {destinationSuggestions.length > 0 && (
+                    <ul className="bg-black shadow-md rounded-lg absolute w-full z-50">
+                      {destinationSuggestions.map((place, index) => (
+                        <li
+                          key={index}
+                          className="p-2 cursor-pointer"
+                          onClick={() =>
+                            handleLocationSelect(place, setDestination)
+                          }
+                        >
+                          {place.name}, {place.state}, {place.country}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </form>
+                <button
+                  onClick={() => {
+                    findTrip(),
+                      setrouteRequested(true),
+                      console.log(routeRequested);
+                  }}
+                  className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
+                >
+                  Find Trip
+                </button>
+              </div>
+              <div ref={panelRef} className="bg-white h-0">
+                <LocationSearchPanel
+                  suggestions={
+                    activeField === "pickup"
+                      ? pickupSuggestions
+                      : destinationSuggestions
+                  }
+                  setPanelOpen={setPanelOpen}
+                  setVehiclePanel={setVehiclePanel}
+                  setPickup={setPickup}
+                  setDestination={setDestination}
+                  activeField={activeField}
+                />
+              </div>
+            </div>
+            <div
+              ref={vehiclePanelRef}
+              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
+            >
+              <VehiclePanel
+                selectVehicle={setVehicleType}
+                fare={Fare}
+                setConfirmRidePanel={setConfirmRidePanel}
+                setVehiclePanel={setVehiclePanel}
+              />
+            </div>
+            <div
+              ref={confirmRidePanelRef}
+              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
+            >
+              <ConfirmRide
+                createRide={createRide}
+                pickup={pickup}
+                destination={destination}
+                fare={Fare}
+                vehicleType={vehicleType}
+                setConfirmRidePanel={setConfirmRidePanel}
+                setVehicleFound={setVehicleFound}
+              />
+            </div>
+            <div
+              ref={vehicleFoundRef}
+              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
+            >
+              <LookingForDriver
+                createRide={createRide}
+                pickup={pickup}
+                destination={destination}
+                fare={Fare}
+                vehicleType={vehicleType}
+                setVehicleFound={setVehicleFound}
+              />
+            </div>
+            <div
+              ref={waitingForDriverRef}
+              className="fixed w-[390px] z-10 bottom-0  bg-white px-3 py-6 pt-12"
+            >
+              <WaitingForDriver
+                ride={ride}
+                setVehicleFound={setVehicleFound}
+                setWaitingForDriver={setWaitingForDriver}
+                waitingForDriver={waitingForDriver}
+              />
+            </div>
+          </div>
         </div>
-        <div ref={panelRef} className="bg-white h-0">
-          <LocationSearchPanel
-            suggestions={
-              activeField === "pickup"
-                ? pickupSuggestions
-                : destinationSuggestions
-            }
-            setPanelOpen={setPanelOpen}
-            setVehiclePanel={setVehiclePanel}
-            setPickup={setPickup}
-            setDestination={setDestination}
-            activeField={activeField}
-          />
-        </div>
-      </div>
-      <div
-        ref={vehiclePanelRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
-      >
-        <VehiclePanel
-          selectVehicle={setVehicleType}
-          fare={Fare}
-          setConfirmRidePanel={setConfirmRidePanel}
-          setVehiclePanel={setVehiclePanel}
-        />
-      </div>
-      <div
-        ref={confirmRidePanelRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
-      >
-        <ConfirmRide
-          createRide={createRide}
-          pickup={pickup}
-          destination={destination}
-          fare={Fare}
-          vehicleType={vehicleType}
-          setConfirmRidePanel={setConfirmRidePanel}
-          setVehicleFound={setVehicleFound}
-        />
-      </div>
-      <div
-        ref={vehicleFoundRef}
-        className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
-      >
-        <LookingForDriver
-          createRide={createRide}
-          pickup={pickup}
-          destination={destination}
-          fare={Fare}
-          vehicleType={vehicleType}
-          setVehicleFound={setVehicleFound}
-        />
-      </div>
-      <div
-        ref={waitingForDriverRef}
-        className="fixed w-full  z-10 bottom-0  bg-white px-3 py-6 pt-12"
-      >
-        <WaitingForDriver
-          ride={ride}
-          setVehicleFound={setVehicleFound}
-          setWaitingForDriver={setWaitingForDriver}
-          waitingForDriver={waitingForDriver}
-        />
       </div>
     </div>
   );
