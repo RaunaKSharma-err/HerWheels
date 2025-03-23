@@ -9,7 +9,7 @@ const LookingForDriver = (props) => {
           props.setVehicleFound(false);
         }}
       >
-        <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
+        <i className="text-3xl text-gray-600 ri-arrow-down-wide-line"></i>
       </h5>
       <h3 className="text-2xl font-semibold mb-5 text-black">
         Looking for a Driver

@@ -117,17 +117,20 @@ const CaptainHome = () => {
 
   return (
     <div className="flex justify-center items-center pt-[22px]">
-      <div className="mockup-phone h-[95vh] z-10">
+      <div className="mockup-phone h-[95vh] z-10 ">
         <div className="mockup-phone-camera z-10"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh]">
+            <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
+              HerWheels
+            </h1>
             {/* Top Bar */}
-            <div className="fixed p-6 top-0 flex items-center justify-end w-screen">
+            <div className="fixed p-6 top-4 flex items-center justify-center w-[700px]">
               <Link
                 to="/captain-signup"
                 className="h-10 w-10 bg-white flex items-center justify-center rounded-full"
               >
-                <i className="text-lg font-medium ri-logout-box-r-line"></i>
+                <i className="text-lg font-medium ri-logout-box-r-line text-black"></i>
               </Link>
             </div>
 
@@ -148,7 +151,7 @@ const CaptainHome = () => {
             {/* Ride Popup Panel */}
             <div
               ref={ridePopupPanelRef}
-              className="fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
+              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
             >
               <RidePopUp
                 ride={ride}

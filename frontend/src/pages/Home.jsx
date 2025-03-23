@@ -196,11 +196,9 @@ const Home = () => {
         <div className="mockup-phone-camera z-10"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh] rounded-b-[49px] relative overflow-hidden">
-            <img
-              className="w-16 absolute left-5 top-5"
-              src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
-              alt=""
-            />
+          <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
+                HerWheels
+              </h1>
             <div className="h-screen w-screen">
               {/* image for temporary use  */}
               <LiveTracking
