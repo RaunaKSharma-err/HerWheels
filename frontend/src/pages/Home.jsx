@@ -14,6 +14,18 @@ import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
 import { useHomeStore } from "../store/useHomeStore";
+import {
+  Bell,
+  Bike,
+  History,
+  House,
+  MapPin,
+  Menu,
+  MessageCircle,
+  NotebookIcon,
+  Search,
+  User,
+} from "lucide-react";
 
 const Home = () => {
   const { Fare, pickupCoordinates, destinationCoordinates } = useHomeStore();
@@ -37,6 +49,7 @@ const Home = () => {
   const [ride, setRide] = useState(null);
   const [routeRequested, setrouteRequested] = useState(false);
   const [rideDetails, setrideDetails] = useState({});
+  const [isActive, setIsActive] = useState("home");
 
   const navigate = useNavigate();
 
@@ -191,15 +204,15 @@ const Home = () => {
   );
 
   return (
-    <div className="flex justify-center items-center pt-[22px]">
+    <div className="flex justify-center items-center h-screen pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100">
       <div className="mockup-phone h-[95vh] z-10">
-        <div className="mockup-phone-camera z-10"></div>
+        <div className="mockup-phone-camera z-100"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh] rounded-b-[49px] relative overflow-hidden">
-          <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
-                HerWheels
-              </h1>
-            <div className="h-screen w-screen">
+            {/* <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
+              HerWheels
+            </h1> */}
+            <div className="h-screen w-screen relative">
               {/* image for temporary use  */}
               <LiveTracking
                 startPlace={pickup}
@@ -207,10 +220,16 @@ const Home = () => {
                 vehicleType={vehicleType}
                 routeRequested={routeRequested}
               />
+              <div className="absolute top-12 left-82 btn border-none bg-white rounded-full p-2 z-50 ">
+                <Bell color="blue" />
+              </div>
+              <div className="absolute top-12 left-5 btn border-none bg-white rounded-full p-2 z-50 ">
+                <Menu color="blue" />
+              </div>
             </div>
             <div className=" flex flex-col rounded-b-[49px] justify-end h-screen absolute top-0 w-full">
               <div
-                className={`h-[40%] p-6 bg-white rounded-b-[49px] relative ${
+                className={`h-[45%] p-6 bg-white rounded-t-2xl rounded-b-[49px] z-50 relative ${
                   panelOpen ? "z-50" : ""
                 }`}
               >
@@ -223,27 +242,32 @@ const Home = () => {
                 >
                   <i className="ri-arrow-down-wide-line"></i>
                 </h5>
-                <h4 className="text-2xl font-semibold text-black">
-                  Find a trip
-                </h4>
+                <p className="text-xl font-semibold  text-black">
+                  <Bike className="inline-flex" />
+                  {"    "}
+                  <span>Start riding now ...</span>
+                </p>
                 <form
                   className="relative py-3"
                   onSubmit={(e) => e.preventDefault()}
                 >
-                  <input
-                    onClick={() => setActiveField("pickup")}
-                    value={pickup}
-                    onChange={(e) => {
-                      setPickup(e.target.value);
-                      fetchLocationSuggestions(
-                        e.target.value,
-                        setPickupSuggestions
-                      );
-                    }}
-                    className="bg-black px-12 py-2 text-lg rounded-lg w-full"
-                    type="text"
-                    placeholder="Add a pick-up location"
-                  />
+                  <label className="input bg-slate-200 rounded-full mb-2">
+                    <MapPin color="black" className="ml-2" />
+                    <input
+                      onClick={() => setActiveField("pickup")}
+                      value={pickup}
+                      onChange={(e) => {
+                        setPickup(e.target.value);
+                        fetchLocationSuggestions(
+                          e.target.value,
+                          setPickupSuggestions
+                        );
+                      }}
+                      className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
+                      type="text"
+                      placeholder="Add a pick-up location"
+                    />
+                  </label>
                   {pickupSuggestions.length > 0 && (
                     <ul className="bg-black text-white shadow-md rounded-lg absolute w-full z-50">
                       {pickupSuggestions.map((place, index) => (
@@ -257,20 +281,23 @@ const Home = () => {
                       ))}
                     </ul>
                   )}
-                  <input
-                    onClick={() => setActiveField("destination")}
-                    value={destination}
-                    onChange={(e) => {
-                      setDestination(e.target.value);
-                      fetchLocationSuggestions(
-                        e.target.value,
-                        setDestinationSuggestions
-                      );
-                    }}
-                    className="bg-black px-12 py-2 text-lg rounded-lg w-full mt-3"
-                    type="text"
-                    placeholder="Enter your destination"
-                  />
+                  <label className="input bg-slate-200 rounded-full">
+                    <MapPin color="black" className="ml-2" />
+                    <input
+                      onClick={() => setActiveField("destination")}
+                      value={destination}
+                      onChange={(e) => {
+                        setDestination(e.target.value);
+                        fetchLocationSuggestions(
+                          e.target.value,
+                          setDestinationSuggestions
+                        );
+                      }}
+                      className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
+                      type="text"
+                      placeholder="Enter your destination"
+                    />
+                  </label>
                   {destinationSuggestions.length > 0 && (
                     <ul className="bg-black shadow-md rounded-lg absolute w-full z-50">
                       {destinationSuggestions.map((place, index) => (
@@ -293,10 +320,52 @@ const Home = () => {
                       setrouteRequested(true),
                       console.log(routeRequested);
                   }}
-                  className="bg-black text-white px-4 py-2 rounded-lg mt-3 w-full"
+                  className="btn-primary btn text-white px-4 py-2 rounded-lg mt-3 w-full"
                 >
                   Find Trip
                 </button>
+                <div className="tabs tabs-box bg-black mt-5 p-2 w-full h-[65px] flex justify-evenly items-center rounded-full">
+                  <div className="rounded-full">
+                    <div
+                      onClick={() => setIsActive("home")}
+                      className={`p-2 cursor-pointer ${
+                        isActive == "home" ? "btn-primary btn" : ""
+                      } rounded-full`}
+                    >
+                      <House />
+                    </div>
+                  </div>
+                  <div className="rounded-full">
+                    <div
+                      className={`p-2 cursor-pointer ${
+                        isActive == "history" ? "btn-primary btn" : ""
+                      } rounded-full`}
+                      onClick={() => setIsActive("history")}
+                    >
+                      <History />
+                    </div>
+                  </div>
+                  <div className="rounded-full">
+                    <div
+                      className={`p-2 cursor-pointer ${
+                        isActive == "message" ? "btn-primary btn" : ""
+                      } rounded-full`}
+                      onClick={() => setIsActive("message")}
+                    >
+                      <MessageCircle />
+                    </div>
+                  </div>
+                  <div className="rounded-full">
+                    <div
+                      className={`p-2 cursor-pointer ${
+                        isActive == "profile" ? "btn-primary btn" : ""
+                      } rounded-full`}
+                      onClick={() => setIsActive("profile")}
+                    >
+                      <User />
+                    </div>
+                  </div>
+                </div>
               </div>
               <div ref={panelRef} className="bg-white h-0">
                 <LocationSearchPanel

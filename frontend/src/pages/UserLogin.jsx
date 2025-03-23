@@ -1,112 +1,90 @@
 import React, { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Mail, Lock } from "lucide-react"; // Import lucide-react icons
 
 const UserLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userData, setUserData] = useState({});
-
-  const { user, setUser } = useContext(UserDataContext);
+  const { setUser } = useContext(UserDataContext);
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    const userData = {
-      email: email,
-      password: password,
-    };
-
-    const response = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/users/login`,
-      userData
-    );
-
-    if (response.status === 200) {
-      const data = response.data;
-      setUser(data.user);
-      localStorage.setItem("token", data.token);
-      navigate("/home");
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/users/login`,
+        { email, password }
+      );
+      if (response.status === 200) {
+        const { user, token } = response.data;
+        setUser(user);
+        localStorage.setItem("token", token);
+        navigate("/home");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
     }
-
-    setEmail("");
-    setPassword("");
   };
 
   return (
-    <div className="flex justify-center items-center pt-[22px]">
-      <div className="mockup-phone h-[95vh] z-10">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-pink-100 to-purple-100 relative overflow-hidden">
+      <div className="mockup-phone z-10">
         <div className="mockup-phone-camera"></div>
-        <div className="mockup-phone-display z-10">
-          <div className="p-3 h-[91vh] w-full flex flex-col justify-between">
-            <div>
-              <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
-                HerWheels
-              </h1>
-
-              <h1 className="ml-6 my-12 font-bold text-center text-xl text-white">
-                Log In to your account!
-              </h1>
-
-              <form
-                onSubmit={(e) => {
-                  submitHandler(e);
-                }}
-              >
-                <h3 className="text-lg font-medium mb-2 text-slate-300">
-                  What's your email
-                </h3>
+        <div className="mockup-phone-display bg-white h-[92vh] rounded-4xl flex flex-col justify-between p-6">
+          <div>
+            <h1 className="text-2xl font-bold text-pink-600 mb-6 mt-2 animate-pulse">
+              HerWheels
+            </h1>
+            <h2 className="text-xl font-semibold text-center text-gray-800 mb-8">
+              Log In to your account!
+            </h2>
+            <form onSubmit={submitHandler} className="space-y-4">
+              <div className="relative">
+                <Mail className="absolute left-3 top-3 text-gray-400" />
                 <input
-                  required
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  className="bg-black mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base"
                   type="email"
                   placeholder="email@example.com"
-                />
-
-                <h3 className="text-lg font-medium mb-2 text-slate-300">
-                  Enter Password
-                </h3>
-
-                <input
-                  className="bg-black mb-7 rounded-lg px-4 py-2 border w-full text-lg placeholder:text-base"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  className="input input-bordered w-full pl-10 bg-base-200 text-white focus:ring-2 focus:ring-blue-500 transition-shadow duration-300 rounded-full"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
+                />
+              </div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-3 " color="black" />
+                <input
                   type="password"
                   placeholder="password"
+                  className="input input-bordered w-full pl-10 bg-base-200 text-white focus:ring-2 focus:ring-blue-500 transition-shadow duration-300 rounded-full"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
                 />
-
-                <button className="bg-[#10b461] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base cursor-pointer ">
-                  Login
-                </button>
-              </form>
-              <p className="text-center">
-                New here?{" "}
-                <Link to="/signup" className="text-blue-800">
-                  Create new Account
-                </Link>
-              </p>
-            </div>
-            <div>
-              <Link
-                to="/captain-login"
-                className="bg-[#111] flex items-center justify-center text-white font-semibold mb-5 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base"
-              >
-                Sign in as Captain
+              </div>
+              <button className="btn btn-primary btn-block rounded-full hover:bg-blue-600 transition-colors duration-300">
+                Login
+              </button>
+            </form>
+            <p className="text-center mt-4 text-gray-800">
+              New here?{" "}
+              <Link to="/signup" className="text-blue-600">
+                Create new Account
               </Link>
-            </div>
+            </p>
+          </div>
+          <div>
+            <Link
+              to="/captain-login"
+              className="btn btn-secondary btn-block rounded-full hover:bg-gray-700 transition-colors duration-300"
+            >
+              Sign in as Captain
+            </Link>
           </div>
         </div>
       </div>
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-100 to-purple-100 opacity-20 blur-xl"></div>
     </div>
   );
 };

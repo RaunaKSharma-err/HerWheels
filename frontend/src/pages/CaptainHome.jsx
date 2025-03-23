@@ -13,14 +13,11 @@ const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const [ride, setRide] = useState(null);
-
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
-
   const { socket } = useContext(SocketContext);
-  const { captain } = useContext(CaptainDataContext);
+  const { captain } = useContext(CaptainDataContext); // Function to update captain's location in real-time
 
-  // Function to update captain's location in real-time
   const updateLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -30,7 +27,6 @@ const CaptainHome = () => {
             userId: captain._id,
             location: { lat: latitude, lng: longitude },
           });
-
           console.log(
             `📍 Location Updated: [Lat: ${latitude}, Lng: ${longitude}]`
           );
@@ -43,21 +39,16 @@ const CaptainHome = () => {
         }
       );
     }
-  };
+  }; // Effect to handle socket connections and location updates
 
-  // Effect to handle socket connections and location updates
   useEffect(() => {
     if (!captain || !socket) return;
-
     socket.emit("join", { userId: captain._id, userType: "captain" });
-
     updateLocation(); // Send location immediately
     const locationInterval = setInterval(updateLocation, 10000); // Update every 10 sec
-
     return () => clearInterval(locationInterval); // Cleanup interval
-  }, [socket, captain]);
+  }, [socket, captain]); // Effect to handle socket events (ride requests, errors, etc.)
 
-  // Effect to handle socket events (ride requests, errors, etc.)
   useEffect(() => {
     const handleConnectError = (err) =>
       console.error("Socket connection error:", err);
@@ -68,14 +59,12 @@ const CaptainHome = () => {
 
     socket.on("connect_error", handleConnectError);
     socket.on("new-ride", handleNewRide);
-
     return () => {
       socket.off("connect_error", handleConnectError);
       socket.off("new-ride", handleNewRide);
     };
-  }, [socket]);
+  }, [socket]); // Function to confirm a ride
 
-  // Function to confirm a ride
   async function confirmRide() {
     try {
       await axios.post(
@@ -95,18 +84,16 @@ const CaptainHome = () => {
       console.error("🚨 Error confirming ride:", error);
       alert("Failed to confirm ride. Please try again.");
     }
-  }
+  } // GSAP Animations for Ride Popup Panel
 
-  // GSAP Animations for Ride Popup Panel
   useGSAP(() => {
     gsap.to(ridePopupPanelRef.current, {
       transform: ridePopupPanel ? "translateY(0)" : "translateY(100%)",
       duration: 0.3,
       ease: "power2.out",
     });
-  }, [ridePopupPanel]);
+  }, [ridePopupPanel]); // GSAP Animations for Confirm Ride Popup Panel
 
-  // GSAP Animations for Confirm Ride Popup Panel
   useGSAP(() => {
     gsap.to(confirmRidePopupPanelRef.current, {
       transform: confirmRidePopupPanel ? "translateY(0)" : "translateY(100%)",
@@ -124,7 +111,6 @@ const CaptainHome = () => {
             <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
               HerWheels
             </h1>
-            {/* Top Bar */}
             <div className="fixed p-6 top-4 flex items-center justify-center w-[700px]">
               <Link
                 to="/captain-signup"
@@ -133,8 +119,6 @@ const CaptainHome = () => {
                 <i className="text-lg font-medium ri-logout-box-r-line text-black"></i>
               </Link>
             </div>
-
-            {/* Map Section */}
             <div className="h-3/5">
               <img
                 className="h-full w-full object-cover"
@@ -142,13 +126,9 @@ const CaptainHome = () => {
                 alt="Map GIF"
               />
             </div>
-
-            {/* Captain Details */}
             <div className="h-2/5 p-6">
               <CaptainDetails />
             </div>
-
-            {/* Ride Popup Panel */}
             <div
               ref={ridePopupPanelRef}
               className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
@@ -160,8 +140,6 @@ const CaptainHome = () => {
                 confirmRide={confirmRide}
               />
             </div>
-
-            {/* Confirm Ride Popup Panel */}
             <div
               ref={confirmRidePopupPanelRef}
               className="fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
