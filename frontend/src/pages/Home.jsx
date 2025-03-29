@@ -204,7 +204,7 @@ const Home = () => {
   );
 
   return (
-    <div className="flex justify-center items-center h-screen pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100">
+    <div className="flex justify-center items-center h-screen pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient">
       <div className="mockup-phone h-[95vh] z-10">
         <div className="mockup-phone-camera z-100"></div>
         <div className="mockup-phone-display z-10">
@@ -229,7 +229,7 @@ const Home = () => {
             </div>
             <div className=" flex flex-col rounded-b-[49px] justify-end h-screen absolute top-0 w-full">
               <div
-                className={`h-[45%] p-6 bg-white rounded-t-2xl rounded-b-[49px] z-50 relative ${
+                className={`h-[45%] p-6 bg-white rounded-t-2xl items-center justify-center rounded-b-[49px] z-50 relative ${
                   panelOpen ? "z-50" : ""
                 }`}
               >
@@ -251,7 +251,7 @@ const Home = () => {
                   className="relative py-3"
                   onSubmit={(e) => e.preventDefault()}
                 >
-                  <label className="input bg-slate-200 rounded-full mb-2">
+                  <label className="input bg-slate-200 rounded-full mb-2 ml-2">
                     <MapPin color="black" className="ml-2" />
                     <input
                       onClick={() => setActiveField("pickup")}
@@ -281,7 +281,7 @@ const Home = () => {
                       ))}
                     </ul>
                   )}
-                  <label className="input bg-slate-200 rounded-full">
+                  <label className="input bg-slate-200 rounded-full ml-2">
                     <MapPin color="black" className="ml-2" />
                     <input
                       onClick={() => setActiveField("destination")}
@@ -324,12 +324,12 @@ const Home = () => {
                 >
                   Find Trip
                 </button>
-                <div className="tabs tabs-box bg-black mt-5 p-2 w-full h-[65px] flex justify-evenly items-center rounded-full">
+                <div className="mb-3 tabs tabs-box bg-black mt-5 p-2 w-full h-[65px] flex justify-evenly items-center rounded-full">
                   <div className="rounded-full">
                     <div
                       onClick={() => setIsActive("home")}
-                      className={`p-2 cursor-pointer ${
-                        isActive == "home" ? "btn-primary btn" : ""
+                      className={`p-2 cursor-pointer btn ${
+                        isActive == "home" ? "btn-primary" : ""
                       } rounded-full`}
                     >
                       <House />
@@ -337,8 +337,8 @@ const Home = () => {
                   </div>
                   <div className="rounded-full">
                     <div
-                      className={`p-2 cursor-pointer ${
-                        isActive == "history" ? "btn-primary btn" : ""
+                      className={`p-2 cursor-pointer btn ${
+                        isActive == "history" ? "btn-primary" : ""
                       } rounded-full`}
                       onClick={() => setIsActive("history")}
                     >
@@ -347,8 +347,8 @@ const Home = () => {
                   </div>
                   <div className="rounded-full">
                     <div
-                      className={`p-2 cursor-pointer ${
-                        isActive == "message" ? "btn-primary btn" : ""
+                      className={`p-2 cursor-pointer btn ${
+                        isActive == "message" ? "btn-primary" : ""
                       } rounded-full`}
                       onClick={() => setIsActive("message")}
                     >
@@ -357,8 +357,8 @@ const Home = () => {
                   </div>
                   <div className="rounded-full">
                     <div
-                      className={`p-2 cursor-pointer ${
-                        isActive == "profile" ? "btn-primary btn" : ""
+                      className={`p-2 cursor-pointer btn ${
+                        isActive == "profile" ? "btn-primary" : ""
                       } rounded-full`}
                       onClick={() => setIsActive("profile")}
                     >

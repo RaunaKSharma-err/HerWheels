@@ -29,7 +29,7 @@ const CaptainRiding = () => {
   );
 
   return (
-    <div className="flex justify-center items-center pt-[22px]">
+    <div className="flex justify-center items-center pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient">
       <div className="mockup-phone h-[95vh] z-10">
         <div className="mockup-phone-camera z-10"></div>
         <div className="mockup-phone-display z-10">

@@ -43,7 +43,7 @@ const CaptainLogout = () => {
   }, [navigate, token]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-pink-100 to-purple-100 transition-opacity duration-500 ease-in-out">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient transition-opacity duration-500 ease-in-out">
       {isLoggingOut ? (
         <div className="flex flex-col items-center justify-center text-gray-800">
           <DoorOpen className="w-16 h-16 animate-spin-slow mb-4" />

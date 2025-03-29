@@ -68,7 +68,7 @@ const CaptainSignup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-pink-100 to-purple-100 relative overflow-hidden">
+    <div className="flex justify-center items-center h-screen bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient relative overflow-hidden">
       <div className="mockup-phone border-primary z-10">
         <div className="mockup-phone-camera"></div>
         <div className="mockup-phone-display bg-white h-[92vh] rounded-4xl flex flex-col justify-between p-6">

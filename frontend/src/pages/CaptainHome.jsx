@@ -8,6 +8,7 @@ import gsap from "gsap";
 import { SocketContext } from "../context/SocketContext";
 import { CaptainDataContext } from "../context/CapatainContext";
 import axios from "axios";
+import { LogOut } from "lucide-react";
 
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -103,30 +104,30 @@ const CaptainHome = () => {
   }, [confirmRidePopupPanel]);
 
   return (
-    <div className="flex justify-center items-center pt-[22px]">
+    <div className="flex justify-center items-center pt-[22px] h-[100vh] bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient">
       <div className="mockup-phone h-[95vh] z-10 ">
-        <div className="mockup-phone-camera z-10"></div>
+        <div className="mockup-phone-camera z-100"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh]">
-            <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
+            {/* <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
               HerWheels
-            </h1>
-            <div className="fixed p-6 top-4 flex items-center justify-center w-[700px]">
+            </h1> */}
+            <div className="fixed p-6 top-10 flex items-center justify-center w-[700px]">
               <Link
                 to="/captain-signup"
                 className="h-10 w-10 bg-white flex items-center justify-center rounded-full"
               >
-                <i className="text-lg font-medium ri-logout-box-r-line text-black"></i>
+                <LogOut color="blue" size={21} />
               </Link>
             </div>
-            <div className="h-3/5">
+            <div className="h-[65vh]">
               <img
                 className="h-full w-full object-cover"
                 src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif"
                 alt="Map GIF"
               />
             </div>
-            <div className="h-2/5 p-6">
+            <div className="p-5 rounded-b-[50px] bg-white">
               <CaptainDetails />
             </div>
             <div

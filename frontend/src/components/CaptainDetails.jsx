@@ -13,16 +13,16 @@ const CaptainDetails = () => {
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s"
             alt=""
           />
-          <h4 className="text-lg font-medium capitalize">
+          <h4 className="text-lg font-medium capitalize text-slate-700">
             {captain.fullname.firstname + " " + captain.fullname.lastname}
           </h4>
         </div>
         <div>
-          <h4 className="text-xl font-semibold text-white">₹295.20</h4>
-          <p className="text-sm text-gray-200">Earned</p>
+          <h4 className="text-xl font-semibold text-slate-700">₹295.20</h4>
+          <p className="text-sm text-slate-700">Earned</p>
         </div>
       </div>
-      <div className="flex p-3 mt-8 bg-gray-100 rounded-xl justify-center gap-5 items-start">
+      <div className="flex p-3 mt-8 bg-gray-200 rounded-xl justify-center gap-5 items-start">
         <div className="text-center">
           <i className="text-3xl mb-2 font-thin ri-timer-2-line text-black"></i>
           <h5 className="text-lg font-medium text-black">10.2</h5>
