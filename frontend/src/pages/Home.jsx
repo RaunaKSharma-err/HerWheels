@@ -14,18 +14,8 @@ import { UserDataContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import LiveTracking from "../components/LiveTracking";
 import { useHomeStore } from "../store/useHomeStore";
-import {
-  Bell,
-  Bike,
-  History,
-  House,
-  MapPin,
-  Menu,
-  MessageCircle,
-  NotebookIcon,
-  Search,
-  User,
-} from "lucide-react";
+import { Bell, Bike, MapPin, Menu } from "lucide-react";
+import TabBar from "../components/tabBar";
 
 const Home = () => {
   const { Fare, pickupCoordinates, destinationCoordinates } = useHomeStore();
@@ -49,7 +39,6 @@ const Home = () => {
   const [ride, setRide] = useState(null);
   const [routeRequested, setrouteRequested] = useState(false);
   const [rideDetails, setrideDetails] = useState({});
-  const [isActive, setIsActive] = useState("home");
 
   const navigate = useNavigate();
 
@@ -91,11 +80,9 @@ const Home = () => {
 
   async function findTrip() {
     setVehiclePanel(true);
-    // Fetch distance and duration logic here
   }
 
   async function createRide() {
-    const fare = await Fare;
     const response = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/rides/create`,
       {
@@ -147,7 +134,7 @@ const Home = () => {
     function () {
       if (vehiclePanel) {
         gsap.to(vehiclePanelRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(0%)",
         });
       } else {
         gsap.to(vehiclePanelRef.current, {
@@ -162,7 +149,7 @@ const Home = () => {
     function () {
       if (confirmRidePanel) {
         gsap.to(confirmRidePanelRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(0%)",
         });
       } else {
         gsap.to(confirmRidePanelRef.current, {
@@ -177,7 +164,7 @@ const Home = () => {
     function () {
       if (vehicleFound) {
         gsap.to(vehicleFoundRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(0%)",
         });
       } else {
         gsap.to(vehicleFoundRef.current, {
@@ -192,7 +179,7 @@ const Home = () => {
     function () {
       if (waitingForDriver) {
         gsap.to(waitingForDriverRef.current, {
-          transform: "translateY(0)",
+          transform: "translateY(0%)",
         });
       } else {
         gsap.to(waitingForDriverRef.current, {
@@ -204,16 +191,12 @@ const Home = () => {
   );
 
   return (
-    <div className="flex justify-center items-center h-screen pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient">
+    <div className="relative flex justify-center items-center h-screen pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100 animated-gradient">
       <div className="mockup-phone h-[95vh] z-10">
         <div className="mockup-phone-camera z-100"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh] rounded-b-[49px] relative overflow-hidden">
-            {/* <h1 className="w-16 ml-6 mb-5 font-extrabold text-2xl text-pink-600">
-              HerWheels
-            </h1> */}
             <div className="h-screen w-screen relative">
-              {/* image for temporary use  */}
               <LiveTracking
                 startPlace={pickup}
                 endPlace={destination}
@@ -229,142 +212,107 @@ const Home = () => {
             </div>
             <div className=" flex flex-col rounded-b-[49px] justify-end h-screen absolute top-0 w-full">
               <div
-                className={`h-[45%] p-6 bg-white rounded-t-2xl items-center justify-center rounded-b-[49px] z-50 relative ${
+                className={`h-[45%] ml-[1px] bg-white rounded-t-2xl items-center justify-center rounded-b-[49px] z-50 relative ${
                   panelOpen ? "z-50" : ""
                 }`}
               >
-                <h5
-                  ref={panelCloseRef}
-                  onClick={() => {
-                    setPanelOpen(false);
-                  }}
-                  className="absolute opacity-0 right-6 top-6 text-2xl"
-                >
-                  <i className="ri-arrow-down-wide-line"></i>
-                </h5>
-                <p className="text-xl font-semibold  text-black">
-                  <Bike className="inline-flex" />
-                  {"    "}
-                  <span>Start riding now ...</span>
-                </p>
-                <form
-                  className="relative py-3"
-                  onSubmit={(e) => e.preventDefault()}
-                >
-                  <label className="input bg-slate-200 rounded-full mb-2 ml-2">
-                    <MapPin color="black" className="ml-2" />
-                    <input
-                      onClick={() => setActiveField("pickup")}
-                      value={pickup}
-                      onChange={(e) => {
-                        setPickup(e.target.value);
-                        fetchLocationSuggestions(
-                          e.target.value,
-                          setPickupSuggestions
-                        );
-                      }}
-                      className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
-                      type="text"
-                      placeholder="Add a pick-up location"
-                    />
-                  </label>
-                  {pickupSuggestions.length > 0 && (
-                    <ul className="bg-black text-white shadow-md rounded-lg absolute w-full z-50">
-                      {pickupSuggestions.map((place, index) => (
-                        <li
-                          key={index}
-                          className="p-2 cursor-pointer"
-                          onClick={() => handleLocationSelect(place, setPickup)}
-                        >
-                          {place.name}, {place.state}, {place.country}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <label className="input bg-slate-200 rounded-full ml-2">
-                    <MapPin color="black" className="ml-2" />
-                    <input
-                      onClick={() => setActiveField("destination")}
-                      value={destination}
-                      onChange={(e) => {
-                        setDestination(e.target.value);
-                        fetchLocationSuggestions(
-                          e.target.value,
-                          setDestinationSuggestions
-                        );
-                      }}
-                      className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
-                      type="text"
-                      placeholder="Enter your destination"
-                    />
-                  </label>
-                  {destinationSuggestions.length > 0 && (
-                    <ul className="bg-black shadow-md rounded-lg absolute w-full z-50">
-                      {destinationSuggestions.map((place, index) => (
-                        <li
-                          key={index}
-                          className="p-2 cursor-pointer"
-                          onClick={() =>
-                            handleLocationSelect(place, setDestination)
-                          }
-                        >
-                          {place.name}, {place.state}, {place.country}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </form>
-                <button
-                  onClick={() => {
-                    findTrip(),
-                      setrouteRequested(true),
-                      console.log(routeRequested);
-                  }}
-                  className="btn-primary btn text-white px-4 py-2 rounded-lg mt-3 w-full"
-                >
-                  Find Trip
-                </button>
-                <div className="mb-3 tabs tabs-box bg-black mt-5 p-2 w-full h-[65px] flex justify-evenly items-center rounded-full">
-                  <div className="rounded-full">
-                    <div
-                      onClick={() => setIsActive("home")}
-                      className={`p-2 cursor-pointer btn ${
-                        isActive == "home" ? "btn-primary" : ""
-                      } rounded-full`}
-                    >
-                      <House />
-                    </div>
-                  </div>
-                  <div className="rounded-full">
-                    <div
-                      className={`p-2 cursor-pointer btn ${
-                        isActive == "history" ? "btn-primary" : ""
-                      } rounded-full`}
-                      onClick={() => setIsActive("history")}
-                    >
-                      <History />
-                    </div>
-                  </div>
-                  <div className="rounded-full">
-                    <div
-                      className={`p-2 cursor-pointer btn ${
-                        isActive == "message" ? "btn-primary" : ""
-                      } rounded-full`}
-                      onClick={() => setIsActive("message")}
-                    >
-                      <MessageCircle />
-                    </div>
-                  </div>
-                  <div className="rounded-full">
-                    <div
-                      className={`p-2 cursor-pointer btn ${
-                        isActive == "profile" ? "btn-primary" : ""
-                      } rounded-full`}
-                      onClick={() => setIsActive("profile")}
-                    >
-                      <User />
-                    </div>
-                  </div>
+                <div className="px-4 pt-4 pb-1">
+                  <h5
+                    ref={panelCloseRef}
+                    onClick={() => {
+                      setPanelOpen(false);
+                    }}
+                    className="absolute opacity-0 right-6 top-6 text-2xl"
+                  >
+                    <i className="ri-arrow-down-wide-line"></i>
+                  </h5>
+                  <p className="text-xl font-semibold  text-black">
+                    <Bike className="inline-flex" />
+                    {"    "}
+                    <span>Start riding now ...</span>
+                  </p>
+                  <form
+                    className="relative py-3"
+                    onSubmit={(e) => e.preventDefault()}
+                  >
+                    <label className="input bg-slate-200 rounded-full mb-2 w-full">
+                      <MapPin color="black" className="ml-2" />
+                      <input
+                        onClick={() => setActiveField("pickup")}
+                        value={pickup}
+                        onChange={(e) => {
+                          setPickup(e.target.value);
+                          fetchLocationSuggestions(
+                            e.target.value,
+                            setPickupSuggestions
+                          );
+                        }}
+                        className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
+                        type="text"
+                        placeholder="Add a pick-up location"
+                      />
+                    </label>
+                    {pickupSuggestions.length > 0 && (
+                      <ul className="bg-black text-white shadow-md rounded-lg absolute w-full z-50">
+                        {pickupSuggestions.map((place, index) => (
+                          <li
+                            key={index}
+                            className="p-2 cursor-pointer"
+                            onClick={() =>
+                              handleLocationSelect(place, setPickup)
+                            }
+                          >
+                            {place.name}, {place.state}, {place.country}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <label className="input bg-slate-200 rounded-full w-full">
+                      <MapPin color="black" className="ml-2" />
+                      <input
+                        onClick={() => setActiveField("destination")}
+                        value={destination}
+                        onChange={(e) => {
+                          setDestination(e.target.value);
+                          fetchLocationSuggestions(
+                            e.target.value,
+                            setDestinationSuggestions
+                          );
+                        }}
+                        className="px-3 py-2 text-lg text-gray-800 rounded-full w-full"
+                        type="text"
+                        placeholder="Enter your destination"
+                      />
+                    </label>
+                    {destinationSuggestions.length > 0 && (
+                      <ul className="bg-black shadow-md rounded-lg absolute w-full z-50">
+                        {destinationSuggestions.map((place, index) => (
+                          <li
+                            key={index}
+                            className="p-2 cursor-pointer"
+                            onClick={() =>
+                              handleLocationSelect(place, setDestination)
+                            }
+                          >
+                            {place.name}, {place.state}, {place.country}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </form>
+                  <button
+                    onClick={() => {
+                      findTrip(),
+                        setrouteRequested(true),
+                        console.log(routeRequested);
+                    }}
+                    className="btn-primary btn text-white px-4 py-2 rounded-lg mt-3 w-full"
+                  >
+                    Find Trip
+                  </button>
+                </div>
+                <div className="flex justify-center items-center">
+                  <TabBar />
                 </div>
               </div>
               <div ref={panelRef} className="bg-white h-0">
@@ -384,7 +332,8 @@ const Home = () => {
             </div>
             <div
               ref={vehiclePanelRef}
-              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12"
+              className="absolute bottom-0 left-0 w-full z-50 bg-white px-3 py-10 pt-12"
+              style={{ transform: "translateY(100%)" }}
             >
               <VehiclePanel
                 selectVehicle={setVehicleType}
@@ -395,7 +344,8 @@ const Home = () => {
             </div>
             <div
               ref={confirmRidePanelRef}
-              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
+              className="absolute bottom-0 left-0 w-full z-50 bg-white px-3 py-10 pt-12"
+              style={{ transform: "translateY(100%)" }}
             >
               <ConfirmRide
                 createRide={createRide}
@@ -409,7 +359,8 @@ const Home = () => {
             </div>
             <div
               ref={vehicleFoundRef}
-              className="fixed w-[390px] z-10 bottom-0 translate-y-full bg-white px-3 py-6 pt-12"
+              className="absolute bottom-0 left-0 w-full z-50 hidden bg-white px-3 py-10 pt-12"
+              style={{ transform: "translateY(100%)" }}
             >
               <LookingForDriver
                 createRide={createRide}
@@ -422,7 +373,8 @@ const Home = () => {
             </div>
             <div
               ref={waitingForDriverRef}
-              className="fixed w-[390px] z-10 bottom-0  bg-white px-3 py-6 pt-12"
+              className="absolute bottom-0 left-0 w-full z-50 hidden bg-white px-3 py-10 pt-12"
+              style={{ transform: "translateY(100%)" }}
             >
               <WaitingForDriver
                 ride={ride}
