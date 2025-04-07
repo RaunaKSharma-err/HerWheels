@@ -2,7 +2,7 @@ import React from "react";
 
 const RidePopUp = (props) => {
   return (
-    <div className="w-[390px]">
+    <div className="w-[390px] h-[500px]">
       <h5
         className="p-1 text-center w-[93%] absolute top-0"
         onClick={() => {
@@ -14,20 +14,20 @@ const RidePopUp = (props) => {
       <h3 className="text-2xl font-semibold mb-5 text-black">
         New Ride Available!
       </h3>
-      <div className="flex items-center w-[370px] justify-between p-3 bg-yellow-400 rounded-lg mt-4">
+      <div className="flex items-center w-[370px] justify-between p-3 bg-blue-500 rounded-lg mt-4">
         <div className="flex items-center gap-3 ">
           <img
             className="h-12 rounded-full object-cover w-12"
             src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg"
             alt=""
           />
-          <h2 className="text-lg font-medium text-gray-600">
+          <h2 className="text-lg font-medium text-white">
             {props.ride?.user.fullname.firstname +
               " " +
               props.ride?.user.fullname.lastname}
           </h2>
         </div>
-        <h5 className="text-lg font-semibold text-gray-600">2.2 KM</h5>
+        <h5 className="text-lg font-semibold text-white">2.2 KM</h5>
       </div>
       <div className="flex gap-2 justify-between flex-col items-center">
         <div className="w-full mt-5">
@@ -59,7 +59,7 @@ const RidePopUp = (props) => {
             </div>
           </div>
         </div>
-        <div className="mt-5 w-[360px] flex-col justify-center">
+        <div className="mt-1 w-full flex-col justify-center items-center">
           <button
             onClick={() => {
               props.setConfirmRidePopupPanel(true);
@@ -74,7 +74,7 @@ const RidePopUp = (props) => {
             onClick={() => {
               props.setRidePopupPanel(false);
             }}
-            className="mt-2 w-full bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg"
+            className="mt-2 w-[360px] bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg"
           >
             Ignore
           </button>

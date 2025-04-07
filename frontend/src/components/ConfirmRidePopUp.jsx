@@ -30,9 +30,9 @@ const ConfirmRidePopUp = (props) => {
     }
   };
   return (
-    <div className="w-[390px]">
+    <div className="w-full">
       <h5
-        className="p-1 text-center w-[390px] absolute top-0"
+        className="p-1 text-center w-full absolute top-0"
         onClick={() => {
           props.setRidePopupPanel(false);
         }}
@@ -42,7 +42,7 @@ const ConfirmRidePopUp = (props) => {
       <h3 className="text-2xl font-semibold mb-5 text-black">
         Confirm this ride to Start
       </h3>
-      <div className="flex items-center justify-between p-3 border-2 border-yellow-400 rounded-lg mt-4">
+      <div className="flex items-center justify-between p-3 border-2 border-blue-400 rounded-lg mt-4">
         <div className="flex items-center gap-3 ">
           <img
             className="h-12 rounded-full object-cover w-12"
@@ -58,7 +58,7 @@ const ConfirmRidePopUp = (props) => {
       <div className="flex gap-2 justify-between flex-col items-center">
         <div className="w-full mt-5">
           <div className="flex items-center gap-5 p-3 border-b-2">
-            <i className="ri-map-pin-user-fill"></i>
+            <i className="ri-map-pin-user-fill text-black"></i>
             <div>
               <h3 className="text-lg font-medium text-gray-600">562/11-A</h3>
               <p className="text-sm -mt-1 text-gray-600">
@@ -86,17 +86,20 @@ const ConfirmRidePopUp = (props) => {
           </div>
         </div>
 
-        <div className="mt-6 w-[390px]">
-          <form onSubmit={submitHander}>
+        <div className="w-full p-5 pr-3">
+          <form
+            onSubmit={submitHander}
+            className="flex flex-col justify-center items-center"
+          >
             <input
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               type="text"
-              className="bg-[#eee] px-6 py-4 font-mono text-lg rounded-lg w-full mt-3"
+              className="bg-[#eee] text-gray-600 px-6 py-4 font-mono text-lg rounded-lg w-[360px] mt-3"
               placeholder="Enter OTP"
             />
 
-            <button className="w-full mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
+            <button className="w-[360px] mt-5 text-lg flex justify-center bg-green-600 text-white font-semibold p-3 rounded-lg">
               Confirm
             </button>
             <button
@@ -104,7 +107,7 @@ const ConfirmRidePopUp = (props) => {
                 props.setConfirmRidePopupPanel(false);
                 props.setRidePopupPanel(false);
               }}
-              className="w-full mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
+              className="w-[360px] mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
             >
               Cancel
             </button>
