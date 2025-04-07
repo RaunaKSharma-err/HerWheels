@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import LiveTracking from "../components/LiveTracking";
 import { useHomeStore } from "../store/useHomeStore";
-import { LogOut, Menu } from "lucide-react";
+import { Car, LogOut, Menu } from "lucide-react";
 
 const CaptainRiding = () => {
   const [finishRidePanel, setFinishRidePanel] = useState(false);
@@ -25,14 +25,14 @@ const CaptainRiding = () => {
   }, [finishRidePanel]);
 
   return (
-    <div className="flex justify-center items-center pt-[22px] bg-gradient-to-br from-pink-100 to-purple-100">
-      <div className="mockup-phone h-[95vh] z-10">
-        <div className="mockup-phone-camera z-10"></div>
+    <div className="flex justify-center items-center pt-[22px] h-screen bg-gradient-to-br from-pink-100 to-purple-100">
+      <div className="mockup-phone h-[95vh] z-50">
+        <div className="mockup-phone-camera z-50"></div>
 
-        <div className="mockup-phone-display z-10 relative overflow-hidden">
+        <div className="mockup-phone-display z-50 relative overflow-hidden">
           <div className="h-[91vh] flex flex-col justify-end">
             {/* Header */}
-            <div className="absolute p-6 top-0 flex items-center justify-between w-full z-10">
+            <div className="absolute p-6 top-0 flex items-center justify-between w-full">
               <Link
                 to="/captain-home"
                 className="h-10 w-10 bg-white flex items-center justify-center rounded-full"
@@ -49,11 +49,15 @@ const CaptainRiding = () => {
 
             {/* Bottom Ride Info Bar */}
             <div
-              className="h-[225px] ml-[1px] p-6 flex flex-col items-center justify-between bg-white pt-10 rounded-b-[45px] z-20"
+              className="h-[225px] ml-[1px] p-6 flex flex-col items-center justify-between bg-white pt-1 rounded-b-[45px] z-20"
               onClick={() => setFinishRidePanel(true)}
             >
               <h5 className="p-1 text-center w-full h-[20px]">
                 <i className="text-3xl text-gray-400 ri-arrow-up-wide-line"></i>
+              </h5>
+              <h5 className="p-1 text-center flex gap-2 mt-[-10px] w-full h-[20px] font-bold text-2xl text-gray-600">
+                <Car color="black" size={40} />{" "}
+                <span className="pt-2 pl-3 text-blue-500">Riding...</span>
               </h5>
               <div className="flex justify-between w-full items-center">
                 <h4 className="text-xl font-semibold text-gray-600">
@@ -68,7 +72,7 @@ const CaptainRiding = () => {
             {/* Finish Ride Panel */}
             <div
               ref={finishRidePanelRef}
-              className="absolute bottom-0 left-0 w-full translate-y-full opacity-0 bg-white px-3 py-10 pt-12 z-30"
+              className="absolute bottom-24 left-0 w-full opacity-0 bg-white px-3 py-10 pt-12 z-20 rounded-b-[50px]"
             >
               <FinishRide
                 ride={rideData}
