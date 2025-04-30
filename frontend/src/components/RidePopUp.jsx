@@ -14,7 +14,7 @@ const RidePopUp = (props) => {
       <h3 className="text-2xl font-semibold mb-5 text-black">
         New Ride Available!
       </h3>
-      <div className="flex items-center w-[370px] justify-between p-3 bg-blue-500 rounded-lg mt-4">
+      <div className="flex items-center w-[370px] justify-between p-3 bg-green-500 rounded-lg mt-4">
         <div className="flex items-center gap-3 ">
           <img
             className="h-12 rounded-full object-cover w-12"
@@ -65,7 +65,7 @@ const RidePopUp = (props) => {
               props.setConfirmRidePopupPanel(true);
               props.confirmRide();
             }}
-            className=" bg-green-600 w-[360px] text-white font-semibold p-2 px-10 rounded-lg"
+            className=" bg-green-600 cursor-pointer w-[360px] text-white font-semibold p-2 px-10 rounded-lg"
           >
             Accept
           </button>
@@ -74,7 +74,7 @@ const RidePopUp = (props) => {
             onClick={() => {
               props.setRidePopupPanel(false);
             }}
-            className="mt-2 w-[360px] bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg"
+            className="mt-2 cursor-pointer w-[360px] bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg"
           >
             Ignore
           </button>

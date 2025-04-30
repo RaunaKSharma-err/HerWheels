@@ -21,13 +21,7 @@ const Riding = () => {
         <div className="mockup-phone-camera z-10"></div>
         <div className="mockup-phone-display z-10">
           <div className="h-[91vh]">
-            <Link
-              to="/home"
-              className="fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full"
-            >
-              <i className="text-lg font-medium ri-home-5-line text-black"></i>
-            </Link>
-            <div className="h-1/2">
+            <div className="h-[435px] overflow-hidden">
               <LiveTracking
                 startPlace={ride.pickup}
                 endPlace={ride.destination}
@@ -35,7 +29,7 @@ const Riding = () => {
                 routeRequested={true}
               />
             </div>
-            <div className="h-1/2 p-4 mt-12">
+            <div className="h-[44%] rounded-b-[50px] p-4 bg-white">
               <div className="flex items-center justify-between">
                 <img
                   className="h-12"
@@ -56,7 +50,7 @@ const Riding = () => {
               <div className="flex gap-2 justify-between flex-col items-center">
                 <div className="w-full mt-5">
                   <div className="flex items-center gap-5 p-3 border-b-2">
-                    <i className="text-lg ri-map-pin-2-fill"></i>
+                    <i className="text-lg ri-map-pin-2-fill text-black"></i>
                     <div>
                       <h3 className="text-lg font-medium text-gray-600">
                         562/11-A
@@ -77,9 +71,11 @@ const Riding = () => {
                   </div>
                 </div>
               </div>
-              <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
-                Make a Payment
-              </button>
+              <Link to="/home" className="cursor-pointer">
+                <button className="w-full mt-5 bg-green-600 text-white font-semibold p-2 rounded-lg">
+                  Make a Payment
+                </button>
+              </Link>
             </div>
           </div>
         </div>

@@ -107,7 +107,7 @@ const ConfirmRidePopUp = (props) => {
                 props.setConfirmRidePopupPanel(false);
                 props.setRidePopupPanel(false);
               }}
-              className="w-[360px] mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
+              className="w-[360px] cursor-pointer mt-2 bg-red-600 text-lg text-white font-semibold p-3 rounded-lg"
             >
               Cancel
             </button>

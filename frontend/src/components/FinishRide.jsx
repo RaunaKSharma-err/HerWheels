@@ -83,7 +83,7 @@ const FinishRide = (props) => {
         <div className="w-full">
           <button
             onClick={endRide}
-            className="w-full mt-5 flex  text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg"
+            className="w-full mt-5 flex cursor-pointer text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg"
           >
             Finish Ride
           </button>
