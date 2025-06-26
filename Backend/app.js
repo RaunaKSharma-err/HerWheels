@@ -19,7 +19,7 @@ app.use(cookieParser());
 const _dirname = path.resolve();
 
 app.get("/", (req, res) => {
-  res.send("Hello and Welcome to Herwheels");
+  res.redirect("/home");
 });
 
 app.use("/users", userRoutes);
